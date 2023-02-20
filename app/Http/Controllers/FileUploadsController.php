@@ -14,15 +14,33 @@ class FileUploadsController extends Controller
 
         $file = $request->file('file');
 
-        if ($request->has('filename')) {
-            $file = $file->storeAs(
-                'files',
-                $request->filename . '.' . $file->getClientOriginalExtension());
+        if ($request->has('is_public') && $request->is_public === 'on') {
+            if ($request->has('filename') && $request->filename != '') {
+                $file = $file->storeAs(
+                    'files',
+                    $request->filename . '.' . $file->getClientOriginalExtension(),
+                    'public'
+                );
+
+            } else {
+                $file = $file->store('files', 'public');
+
+            }
 
         } else {
-            $file = $file->store('files');
+            if ($request->has('filename') && $request->filename != '') {
+                $file = $file->storeAs(
+                    'files',
+                    $request->filename . '.' . $file->getClientOriginalExtension()
+                );
+
+            } else {
+                $file = $file->store('files');
+
+            }
 
         }
+
 
         return $file;
     }
