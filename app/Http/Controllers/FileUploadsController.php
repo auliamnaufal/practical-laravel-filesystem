@@ -12,8 +12,18 @@ class FileUploadsController extends Controller
             return back()->with('error', 'File not found. Please retry');
         }
 
-        $path = $request->file('file')->store('files');
+        $file = $request->file('file');
 
-        return $path;
+        if ($request->has('filename')) {
+            $file = $file->storeAs(
+                'files',
+                $request->filename . '.' . $file->getClientOriginalExtension());
+
+        } else {
+            $file = $file->store('files');
+
+        }
+
+        return $file;
     }
 }
