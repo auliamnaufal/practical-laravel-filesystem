@@ -42,6 +42,6 @@ class FileUploadsController extends Controller
         }
 
 
-        return $file;
+        return back();
     }
 }
