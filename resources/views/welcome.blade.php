@@ -55,7 +55,11 @@
                 </form>
             </div>
 
-            <div class="h-full col-start-2 col-span-2 rounded-lg"></div>
+            <div class="h-full col-start-2 col-span-2 grid grid-cols-3 gap-4 rounded-lg overflow-auto">
+                @foreach($files as $file)
+                    <img src="{{ URL::to('/') . $file }}" alt="images" class="w-full h-80 rounded-lg object-cover">
+                @endforeach
+            </div>
 
         </div>
     </div>

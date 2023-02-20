@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FileUploadsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $files = Storage::allFiles('public/files');
+    $fileUrls = [];
+
+    foreach ($files as $file) {
+        $fileUrls[] = Storage::url($file);
+    }
+
+    return view('welcome', [
+        'files' => $fileUrls
+    ]);
 });
 
 Route::post('/uploads', [FileUploadsController::class, 'store'])->name('uploads.store');
