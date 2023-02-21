@@ -16,15 +16,10 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    $files = Storage::allFiles('public/files');
-    $fileUrls = [];
-
-    foreach ($files as $file) {
-        $fileUrls[] = Storage::url($file);
-    }
+    $files = Storage::disk('s3')->files('files');
 
     return view('welcome', [
-        'files' => $fileUrls
+        'files' => $files
     ]);
 });
 
